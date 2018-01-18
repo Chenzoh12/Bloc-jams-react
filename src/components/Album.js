@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import albumData from './../data/albums';
 import Ionicon from 'react-ionicons';
+import PlayerBar from './PlayerBar';
 
 class Album extends Component {
     constructor(props) {
@@ -47,6 +48,15 @@ class Album extends Component {
         }
     }
     
+    handlePrevClick() {
+        const currentIndex = this.state.album.songs.findIndex(song => this.state.currentSong === song);
+        const newIndex = Math.max(0, currentIndex - 1);
+        const newSong = this.state.album.songs[newIndex];
+        this.setSong(newSong);
+        this.play(newSong);
+        console.log(currentIndex + " " + newIndex);
+    }
+    
     render() {
         return (
             <section className="album">
@@ -68,11 +78,11 @@ class Album extends Component {
                         {this.state.album.songs.map( (song, index) => 
                             <tr className="song" key={index} onClick={() => this.handleSongClick(song)} >
                                 <td className="song-actions">
-                                    <button>
-                                        <span className="song-number">{index+1}</span>
-                                        <span className="ion-play"></span>
-                                        <span className="ion-pause"></span>
-                                    </button>
+                              
+                                <Ionicon icon={this.state.isPlaying ? 'ios-pause' : 'ios-play'}>
+                                    {index+1}
+                                </Ionicon>
+ 
                                 </td>
                                 <td className="song-title">{song.title}</td>
                                 <td className="song-duration">{song.duration}</td>
@@ -80,6 +90,13 @@ class Album extends Component {
                         )}
                     </tbody>
                 </table>
+                <PlayerBar 
+                    isPlaying={this.state.isPlaying} 
+                    currentSong={this.state.currentSong} 
+                    handleSongClick={() => this.handleSongClick(this.state.currentSong)}
+                    handlePrevClick={() => this.handlePrevClick()}
+                />
+
             </section>
             );
         }
