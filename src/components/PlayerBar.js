@@ -8,7 +8,7 @@ class PlayerBar extends Component {
                 <section id="buttons">
                     <Ionicon icon="ios-skip-backward-outline" onClick={this.props.handlePrevClick}/>
                     <Ionicon icon={this.props.isPlaying ? 'ios-pause' : 'ios-play'} onClick={this.props.handleSongClick}/>
-                    <Ionicon icon="ios-skip-forward-outline" />
+                    <Ionicon icon="ios-skip-forward-outline" onClick={this.props.handleNextClick}/>
                 </section>
                 <section id="time-control">                                                                    
                     <div className="current-time">–:––</div>
